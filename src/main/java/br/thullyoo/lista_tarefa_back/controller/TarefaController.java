@@ -35,4 +35,10 @@ public class TarefaController {
         return ResponseEntity.status(HttpStatus.OK).body(tarefaService.editarOrdemTarefas(tarefaOrdemList));
     }
 
+    @DeleteMapping("/{id_tarefa}")
+    public ResponseEntity<Void> excluirTarefa(@PathVariable("id_tarefa") Long id) throws Exception {
+        this.tarefaService.deletarTarefa(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
