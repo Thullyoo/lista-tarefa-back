@@ -1,10 +1,9 @@
 package br.thullyoo.lista_tarefa_back.entity;
 
+import br.thullyoo.lista_tarefa_back.entity.DTO.TarefaDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.Date;
 
@@ -18,29 +17,34 @@ public class Tarefa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String name;
+    private String nome;
 
     private Double custo;
 
     private Date data_limite;
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ordem_apresentacao;
 
-    public Long getId() {
+    public Tarefa(TarefaDTO dto) {
+        nome = dto.nome();
+        data_limite = dto.data_limite();
+        custo = dto.custo();
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
     public String getName() {
-        return name;
+        return nome;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.nome = name;
     }
 
     public Double getCusto() {
