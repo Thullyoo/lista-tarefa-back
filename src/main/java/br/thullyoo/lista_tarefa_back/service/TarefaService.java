@@ -31,8 +31,21 @@ public class TarefaService {
         return tarefaRepository.findAll();
     }
 
-    public void deletarTarefa(Long id){
+    public void deletarTarefa(Long id) throws Exception {
+        Optional<Tarefa> tarefaExcluir = tarefaRepository.findById(id);
+
+        if (tarefaExcluir.isEmpty()){
+            throw new Exception("Tarefa não registrada");
+        }
+
+        List<Tarefa> tarefas = tarefaRepository.findAll();
+        for (Tarefa tarefa : tarefas){
+            if (tarefa.getOrdem_apresentacao() > tarefaExcluir.get().getOrdem_apresentacao()){
+                tarefa.setOrdem_apresentacao(tarefa.getOrdem_apresentacao() - 1);
+            }
+        }
         tarefaRepository.deleteById(id);
+
     }
 
     @Transactional
