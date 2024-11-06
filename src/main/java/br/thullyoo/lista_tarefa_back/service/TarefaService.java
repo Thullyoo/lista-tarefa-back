@@ -1,5 +1,8 @@
 package br.thullyoo.lista_tarefa_back.service;
 
+import br.thullyoo.lista_tarefa_back.entity.DTO.TarefaDTO;
+import br.thullyoo.lista_tarefa_back.entity.DTO.TarefaOrdemDTO;
+import br.thullyoo.lista_tarefa_back.entity.DTO.TarefaOrdemDTOList;
 import br.thullyoo.lista_tarefa_back.entity.Tarefa;
 import br.thullyoo.lista_tarefa_back.repository.TarefaRepository;
 import jakarta.transaction.Transactional;
@@ -18,7 +21,9 @@ public class TarefaService {
     }
 
     @Transactional
-    public Tarefa incluirTarefa(Tarefa tarefa){
+    public Tarefa incluirTarefa(TarefaDTO dto){
+        Tarefa tarefa = new Tarefa(dto);
+        tarefa.setOrdem_apresentacao(listarTarefas().size() + 1);
         return tarefaRepository.save(tarefa);
     }
 
@@ -31,7 +36,7 @@ public class TarefaService {
     }
 
     @Transactional
-    public Tarefa editarTarefa(Long id, Tarefa tarefa) throws Exception {
+    public Tarefa editarTarefa(Long id, TarefaDTO tarefa) throws Exception {
 
         Optional<Tarefa> tarefaOptional = tarefaRepository.findById(id);
 
@@ -39,16 +44,16 @@ public class TarefaService {
             throw new Exception("Tarefa não registrada");
         }
 
-        if(tarefa.getName() != null){
-            tarefaOptional.get().setName(tarefa.getName());
+        if(tarefa.nome() != null){
+            tarefaOptional.get().setName(tarefa.nome());
         }
 
-        if(tarefa.getCusto() != null){
-            tarefaOptional.get().setCusto(tarefa.getCusto());
+        if(tarefa.custo() != null){
+            tarefaOptional.get().setCusto(tarefa.custo());
         }
 
-        if(tarefa.getData_limite() != null){
-            tarefaOptional.get().setData_limite(tarefa.getData_limite());
+        if(tarefa.data_limite() != null){
+            tarefaOptional.get().setData_limite(tarefa.data_limite());
         }
 
         tarefaRepository.save(tarefaOptional.get());
@@ -56,5 +61,18 @@ public class TarefaService {
         return tarefaOptional.get();
     }
 
+    @Transactional
+    public List<Tarefa> editarOrdemTarefas(TarefaOrdemDTOList dtoList) throws Exception {
+        System.out.println("Chegou aqui");
+        for(TarefaOrdemDTO tarefaDto : dtoList.ordemList()){
+            Optional<Tarefa> tarefa = tarefaRepository.findById(tarefaDto.id());
+            if (tarefa.isEmpty()){
+                throw new Exception("Tarefa não registrada");
+            }
+            tarefa.get().setOrdem_apresentacao(tarefaDto.ordem_apresentacao());
+            tarefaRepository.save(tarefa.get());
+        }
+        return this.tarefaRepository.findAll();
+    }
 
 }
