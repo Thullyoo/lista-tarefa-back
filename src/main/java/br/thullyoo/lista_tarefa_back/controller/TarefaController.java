@@ -30,6 +30,11 @@ public class TarefaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(tarefaService.incluirTarefa(tarefaDTO));
     }
 
+    @PutMapping("/{id_tarefa}")
+    public ResponseEntity<Tarefa> editarTarefa(@PathVariable("id_tarefa") Long id, @RequestBody TarefaDTO tarefaDTO) throws Exception {
+        return ResponseEntity.status(HttpStatus.OK).body(tarefaService.editarTarefa(id, tarefaDTO));
+    }
+
     @PutMapping
     public ResponseEntity<List<Tarefa>> editarOrdemTarefas(@RequestBody TarefaOrdemDTOList tarefaOrdemList) throws Exception {
         return ResponseEntity.status(HttpStatus.OK).body(tarefaService.editarOrdemTarefas(tarefaOrdemList));
