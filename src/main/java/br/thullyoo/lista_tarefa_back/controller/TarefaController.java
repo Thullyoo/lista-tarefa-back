@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController()
 @RequestMapping("/tarefas")
-@CrossOrigin("${URL_CROSS}")
+@CrossOrigin("https://lista-tarefa-back-desafio-tecnico.netlify.app/")
 public class TarefaController {
 
 
