@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController()
 @RequestMapping("/tarefas")
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("${URL_CROSS}")
 public class TarefaController {
 
 
