@@ -4,10 +4,12 @@ import br.thullyoo.lista_tarefa_back.entity.DTO.TarefaDTO;
 import br.thullyoo.lista_tarefa_back.entity.DTO.TarefaOrdemDTO;
 import br.thullyoo.lista_tarefa_back.entity.DTO.TarefaOrdemDTOList;
 import br.thullyoo.lista_tarefa_back.entity.Tarefa;
+import br.thullyoo.lista_tarefa_back.exceptions.DataLimiteException;
 import br.thullyoo.lista_tarefa_back.repository.TarefaRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +24,9 @@ public class TarefaService {
 
     @Transactional
     public Tarefa incluirTarefa(TarefaDTO dto){
+        if (dto.data_limite().equals(LocalDate.now()) || dto.data_limite().isBefore(LocalDate.now()) ){
+            throw new DataLimiteException("Data limite não pode ser hoje ou antes");
+        }
         Tarefa tarefa = new Tarefa(dto);
         tarefa.setOrdem_apresentacao(listarTarefas().size() + 1);
         return tarefaRepository.save(tarefa);
@@ -62,7 +67,7 @@ public class TarefaService {
         }
 
         if(tarefa.custo() != null){
-            tarefaOptional.get().setCusto(tarefa.custo());
+            tarefaOptional.get().setCusto(Float.valueOf(tarefa.custo().replace(",", ".")));
         }
 
         if(tarefa.data_limite() != null){
@@ -87,5 +92,4 @@ public class TarefaService {
         }
         return this.tarefaRepository.findAll();
     }
-
 }

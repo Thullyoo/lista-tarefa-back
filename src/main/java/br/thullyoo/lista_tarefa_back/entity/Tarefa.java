@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "TB_TAREFAS")
@@ -20,16 +20,16 @@ public class Tarefa {
     @Column(unique = true)
     private String nome;
 
-    private Double custo;
+    private Float custo;
 
-    private Date data_limite;
+    private LocalDate data_limite;
 
     private Integer ordem_apresentacao;
 
     public Tarefa(TarefaDTO dto) {
         nome = dto.nome();
         data_limite = dto.data_limite();
-        custo = dto.custo();
+        custo = Float.valueOf(dto.custo().replace(",","."));
     }
 
     public Integer getId() {
@@ -48,19 +48,19 @@ public class Tarefa {
         this.nome = name;
     }
 
-    public Double getCusto() {
+    public Float getCusto() {
         return custo;
     }
 
-    public void setCusto(Double custo) {
+    public void setCusto(Float custo) {
         this.custo = custo;
     }
 
-    public Date getData_limite() {
+    public LocalDate getData_limite() {
         return data_limite;
     }
 
-    public void setData_limite(Date data_limite) {
+    public void setData_limite(LocalDate data_limite) {
         this.data_limite = data_limite;
     }
 
