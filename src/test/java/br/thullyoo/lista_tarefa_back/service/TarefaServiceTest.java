@@ -14,6 +14,9 @@ import org.springframework.util.Assert;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -42,6 +45,23 @@ class TarefaServiceTest {
         Tarefa tarefaResponse = tarefaService.incluirTarefa(tarefaDTO);
 
         assertEquals(tarefa, tarefaResponse);
+    }
+
+    @Test
+    public void deveRetornarAListaDeTarefas(){
+        TarefaDTO tarefaDTO1 = new TarefaDTO("Criar um site", "2000", LocalDate.now().plusDays(1L));
+        Tarefa tarefa1 = new Tarefa(tarefaDTO1);
+        TarefaDTO tarefaDTO2 = new TarefaDTO("Criar um site", "2000", LocalDate.now().plusDays(1L));
+        Tarefa tarefa2 = new Tarefa(tarefaDTO2);
+        List<Tarefa> tarefas = new ArrayList<>();
+        tarefas.add(tarefa1);
+        tarefas.add(tarefa2);
+
+        Mockito.when(tarefaRepository.findAll()).thenReturn(tarefas);
+
+        List<Tarefa> tarefaResponse = tarefaService.listarTarefas();
+
+        assertEquals(tarefas, tarefaResponse);
     }
 
 }
