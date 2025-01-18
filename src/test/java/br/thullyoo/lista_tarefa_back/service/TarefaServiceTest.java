@@ -64,4 +64,9 @@ class TarefaServiceTest {
         assertEquals(tarefas, tarefaResponse);
     }
 
+    @Test
+    public void deveLancarException(){
+        assertThrows(Exception.class, () -> tarefaService.deletarTarefa(1L));
+    }
+
 }
