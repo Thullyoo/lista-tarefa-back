@@ -15,6 +15,7 @@ import org.springframework.util.Assert;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -69,5 +70,11 @@ class TarefaServiceTest {
     public void deveTarefaNotFoundException(){
         assertThrowsExactly(TarefaNotFoundException.class, () -> tarefaService.deletarTarefa(1L));
     }
+
+    @Test
+    public void deveRetornarTarefaNotFoundException(){
+        assertThrowsExactly(TarefaNotFoundException.class, () -> tarefaService.editarTarefa(1L, new TarefaDTO("ola","20.0", LocalDate.now())));
+    }
+
 
 }

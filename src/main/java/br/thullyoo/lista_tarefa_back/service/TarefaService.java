@@ -60,7 +60,7 @@ public class TarefaService {
         Optional<Tarefa> tarefaOptional = tarefaRepository.findById(id);
 
         if (tarefaOptional.isEmpty()){
-            throw new Exception("Tarefa não registrada");
+            throw new TarefaNotFoundException("Tarefa não registrada");
         }
 
         if(tarefa.nome() != null){
@@ -82,7 +82,6 @@ public class TarefaService {
 
     @Transactional
     public List<Tarefa> editarOrdemTarefas(TarefaOrdemDTOList dtoList) throws Exception {
-        System.out.println("Chegou aqui");
         for(TarefaOrdemDTO tarefaDto : dtoList.ordemList()){
             Optional<Tarefa> tarefa = tarefaRepository.findById(tarefaDto.id());
             if (tarefa.isEmpty()){
