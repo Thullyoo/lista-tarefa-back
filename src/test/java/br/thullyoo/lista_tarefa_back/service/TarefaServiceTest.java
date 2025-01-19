@@ -3,6 +3,7 @@ package br.thullyoo.lista_tarefa_back.service;
 import br.thullyoo.lista_tarefa_back.entity.DTO.TarefaDTO;
 import br.thullyoo.lista_tarefa_back.entity.Tarefa;
 import br.thullyoo.lista_tarefa_back.exceptions.DataLimiteException;
+import br.thullyoo.lista_tarefa_back.exceptions.TarefaNotFoundException;
 import br.thullyoo.lista_tarefa_back.repository.TarefaRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,7 +33,7 @@ class TarefaServiceTest {
     @Test
     public void deveLancarDataLimiteException(){
         TarefaDTO tarefaDTO = new TarefaDTO("Criar um site", "2000", LocalDate.MIN);
-        assertThrows(DataLimiteException.class, () -> tarefaService.incluirTarefa(tarefaDTO));
+        assertThrowsExactly(DataLimiteException.class, () -> tarefaService.incluirTarefa(tarefaDTO));
     }
 
     @Test
@@ -65,8 +66,8 @@ class TarefaServiceTest {
     }
 
     @Test
-    public void deveLancarException(){
-        assertThrows(Exception.class, () -> tarefaService.deletarTarefa(1L));
+    public void deveTarefaNotFoundException(){
+        assertThrowsExactly(TarefaNotFoundException.class, () -> tarefaService.deletarTarefa(1L));
     }
 
 }

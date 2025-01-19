@@ -5,6 +5,7 @@ import br.thullyoo.lista_tarefa_back.entity.DTO.TarefaOrdemDTO;
 import br.thullyoo.lista_tarefa_back.entity.DTO.TarefaOrdemDTOList;
 import br.thullyoo.lista_tarefa_back.entity.Tarefa;
 import br.thullyoo.lista_tarefa_back.exceptions.DataLimiteException;
+import br.thullyoo.lista_tarefa_back.exceptions.TarefaNotFoundException;
 import br.thullyoo.lista_tarefa_back.repository.TarefaRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,7 @@ public class TarefaService {
         Optional<Tarefa> tarefaExcluir = tarefaRepository.findById(id);
 
         if (tarefaExcluir.isEmpty()){
-            throw new Exception("Tarefa não registrada");
+            throw new TarefaNotFoundException("Tarefa não registrada");
         }
 
         List<Tarefa> tarefas = tarefaRepository.findAll();
